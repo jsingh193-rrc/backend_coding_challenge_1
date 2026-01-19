@@ -15,11 +15,8 @@ export function gamesPlayed(player: Player): number {
 export function calculateRating(player: Player): number {
   const games = gamesPlayed(player);
   if (games === 0) return 0;
-  const winRate = player.wins / games; // 0..1
-  const base = winRate * 1000; // up to 1000 from win rate
-  const scoreFactor = player.totalScore * 0.01; // scale score
-  const rating = Math.max(0, Math.min(2000, base + scoreFactor)); // clamp 0..2000
-  return Math.round(rating);
+  const rating = (player.wins / games) * 100 + (player.totalScore / games);
+  return Math.round(rating * 100) / 100;
 }
 
 export function getRatingResponse(id: number): { id: number; name: string; rating: number; gamesPlayed: number } | undefined {
